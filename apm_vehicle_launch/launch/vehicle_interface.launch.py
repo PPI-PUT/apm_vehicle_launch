@@ -54,10 +54,10 @@ def launch_setup(context, *args, **kwargs):
                 FindPackageShare('raw_vehicle_cmd_converter'), 'data', 'default/accel_map.csv'
             ]),
             'csv_path_brake_map': PathJoinSubstitution([
-                FindPackageShare('raw_vehicle_cmd_converter'), 'data', 'default/brake_map.cs'
+                FindPackageShare('raw_vehicle_cmd_converter'), 'data', 'default/brake_map.csv'
             ]),
             'csv_path_steer_map': PathJoinSubstitution([
-                FindPackageShare('raw_vehicle_cmd_converter'), 'data', 'data/default/steer_map.csv'
+                FindPackageShare('raw_vehicle_cmd_converter'), 'data', 'default/steer_map.csv'
             ]),
             'max_throttle': '0.4',
             'max_brake': '0.9',
