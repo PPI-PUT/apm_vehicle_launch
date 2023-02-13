@@ -1,3 +1,13 @@
 /**:
   ros__parameters:
-    example_param: 0.0
+    max_throttle: 1.0
+    max_brake: 1.0
+    max_steering_wheel: 0.26
+    throttle_offset: 0.0
+    brake_offset: 0.0
+    steering_wheel_offset: 0.0
+    emergency_brake: 0.7
+    refresh_rate: 100
+    timeout: 300
+    base_frame_id: 'base_link'
+    wheel_base: 2.4

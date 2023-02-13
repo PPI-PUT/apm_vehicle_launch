@@ -18,27 +18,32 @@ from launch.launch_description_sources import FrontendLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.actions import ComposableNodeContainer
+from launch_ros.descriptions import ComposableNode
 
 
 def launch_setup(context, *args, **kwargs):
     pkg_prefix = FindPackageShare(LaunchConfiguration('param_file_pkg'))
     config = PathJoinSubstitution([pkg_prefix, LaunchConfiguration('param_file')])
 
-    # apm_interface_node = Node(
-    #     name='apm_interface_node',
-    #     namespace='',
-    #     package='apm_interface',
-    #     executable='apm_interface_node',
-    #     parameters=[
-    #             config
-    #     ],
-    #     # remappings=[
-    #     #         ('', '')
-    #     # ],
-    #     output='screen',
-    #     arguments=['--ros-args', '--log-level', 'info', '--enable-stdout-logs'],
-    #     emulate_tty=True
-    # )
+    vehicle_ppi_interface_container = ComposableNodeContainer(
+        name='vehicle_ppi_interface_container',
+        namespace='',
+        package='rclcpp_components',
+        executable='component_container',
+        composable_node_descriptions=[
+            ComposableNode(
+                package='vehicle_ppi_interface',
+                plugin='vehicle_ppi_interface::VehiclePpiInterfaceNode',
+                name='vehicle_ppi_interface_node',
+                parameters=[config],
+                remappings=[
+                    # ('/vehicle/status/odometry_status', '/sensing/vehicle_velocity_converter/twist_with_covariance')
+                ]
+            ),
+        ],
+        output='screen',
+    )
 
     raw_vehicle_converter_launch = IncludeLaunchDescription(
         FrontendLaunchDescriptionSource(
@@ -74,8 +79,8 @@ def launch_setup(context, *args, **kwargs):
     )
 
     return [
-        # apm_interface_node,
-        raw_vehicle_converter_launch
+        # vehicle_ppi_interface_container,
+        # raw_vehicle_converter_launch
     ]
 
 
